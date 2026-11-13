@@ -2,6 +2,8 @@ package me.wirries.sample.hello;
 
 import com.vaadin.browserless.BrowserlessApplicationContext;
 import com.vaadin.browserless.BrowserlessUIContext;
+import com.vaadin.flow.component.page.ColorScheme;
+import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,6 +41,27 @@ class HelloWorldViewTest {
         window.findButton().withText("Say hello").click();
 
         assertEquals("Hello Vaadin!", window.findNotification().getText());
+    }
+
+    @Test
+    void selectDark_appliesAndRemembersColorScheme() {
+        window.navigate(HelloWorldView.class);
+        var page = window.getUI().getPage();
+        assertEquals(ColorScheme.Value.LIGHT_DARK, page.getColorScheme());
+
+        window.test(colorSchemeSelector(window)).selectItem("Dark");
+        assertEquals(ColorScheme.Value.DARK, page.getColorScheme());
+
+        // A second window of the same user (like a page reload) shares the session and keeps the choice
+        var secondWindow = window.getUser().newWindow();
+        secondWindow.navigate(HelloWorldView.class);
+        assertEquals(ColorScheme.Value.DARK, colorSchemeSelector(secondWindow).getValue());
+        assertEquals(ColorScheme.Value.DARK, secondWindow.getUI().getPage().getColorScheme());
+    }
+
+    @SuppressWarnings("unchecked")
+    private static RadioButtonGroup<ColorScheme.Value> colorSchemeSelector(BrowserlessUIContext window) {
+        return window.find(RadioButtonGroup.class).single();
     }
 
     @Test

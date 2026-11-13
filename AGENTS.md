@@ -26,7 +26,9 @@ Hub). Keep it small and simple; don't add features that the demo doesn't need.
 - Vaadin changes faster than model training data. **Before writing Vaadin code, use the Vaadin MCP server**
   (configured in `.mcp.json`): `get_vaadin_primer`, `search_vaadin_docs` and `get_java_symbol` for version 25.3.
   Don't guess APIs.
-- Theme: Aura is loaded via `@StyleSheet(Aura.STYLESHEET)` in `AppShell`. Use `--aura-*` / `--vaadin-*` CSS
+- Theme: Aura is loaded via `@StyleSheet(Aura.STYLESHEET)` in `AppShell`. The default color scheme is
+  `@ColorScheme(LIGHT_DARK)` (follows the OS); the view switches it with `Page.setColorScheme()`. Never use the
+  `dark` theme attribute. Use `--aura-*` / `--vaadin-*` CSS
   properties, never `--lumo-*`. Don't use `@Theme` or `frontend/themes`.
 - Prefer theme-neutral variants (e.g. `ButtonVariant.PRIMARY`) over `LUMO_*` / `AURA_*` variants.
 - Views live in feature packages under `me.wirries.sample` (e.g. `hello/HelloWorldView.java`), annotated with

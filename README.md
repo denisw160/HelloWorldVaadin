@@ -5,7 +5,8 @@
 [![Docker Hub](https://img.shields.io/docker/v/denisw160/hello-world-vaadin?label=Docker%20Hub&sort=semver)](https://hub.docker.com/r/denisw160/hello-world-vaadin)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-A minimal [Vaadin Flow](https://vaadin.com/flow) application that shows a "Hello World" page. It's meant as a demo
+A minimal [Vaadin Flow](https://vaadin.com/flow) application that shows a "Hello World" page with a light/dark
+color scheme selector. It's meant as a demo
 and template for building, testing and releasing a Vaadin application with GitHub Actions. There's no authentication
 and no database.
 
@@ -43,7 +44,7 @@ For hot reloading of Java changes, run the application from your IDE with the Va
 ```
 src/main/java/me/wirries/sample/
 ├── Application.java          Spring Boot entry point (also the WAR servlet initializer)
-├── AppShell.java             Page shell: theme (Aura) and global stylesheets
+├── AppShell.java             Page shell: theme (Aura), default color scheme and global stylesheets
 └── hello/HelloWorldView.java The single view, mapped to "/"
 src/main/resources/
 ├── application.properties    Configuration (port, Vaadin, Actuator)
@@ -118,7 +119,7 @@ Only the health endpoint is exposed. No other Actuator endpoints are reachable o
 ```
 
 - `HelloWorldViewTest` is a [browserless UI test](https://vaadin.com/docs/latest/building-apps/testing/browserless).
-  It drives the real view on the server side, without a browser.
+  It drives the real view on the server side, without a browser: greeting and color scheme selector.
 - `ActuatorHealthTest` starts the application on a random port and checks the health endpoint.
 
 ## Continuous integration and releases
