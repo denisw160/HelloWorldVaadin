@@ -68,6 +68,10 @@ Hub). Keep it small and simple; don't add features that the demo doesn't need.
 - `.github/workflows/release.yml`: triggered by tags `v*.*.*`; publishes a GitHub Release (JAR, WAR, `SHA256SUMS`)
   and the multi-arch Docker image to Docker Hub. Needs the secrets `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN`;
   optional variable `DOCKERHUB_IMAGE`.
+- `.github/workflows/dockerhub-description.yml`: publishes `DOCKERHUB.md` as the Docker Hub overview when it
+  changes on `main`. Needs the secret `DOCKERHUB_DESCRIPTION_TOKEN` (scope Read, Write, Delete). Keep `DOCKERHUB.md`
+  in sync with the image (tags, configuration, platforms); use absolute links only, Docker Hub can't resolve
+  relative ones.
 - `0.x` versions and suffixed versions (`-rc.1`) are GitHub pre-releases.
 - Pin actions to major versions (`@v7`); Dependabot keeps them up to date.
 - The Docker build stage runs on `$BUILDPLATFORM` (the JAR is platform independent). Keep it that way so that

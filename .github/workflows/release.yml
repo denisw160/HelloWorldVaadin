@@ -51,6 +51,13 @@ jobs:
           java-version: '25'
           cache: maven
 
+      # Cache the Maven distribution downloaded by the wrapper (saves the download and its failures on every run)
+      - name: Cache Maven wrapper distribution
+        uses: actions/cache@v6
+        with:
+          path: ~/.m2/wrapper
+          key: maven-wrapper-${{ hashFiles('.mvn/wrapper/maven-wrapper.properties') }}
+
       - name: Build and test JAR
         run: |
           ./mvnw -B -ntp clean verify -Drevision="$VERSION"

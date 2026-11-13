@@ -163,6 +163,12 @@ All `0.x` versions and versions with a suffix are marked as pre-releases on GitH
 > If a release fails, fix the cause, delete the tag (`git push --delete origin v1.2.3` and `git tag -d v1.2.3`) and
 > the GitHub Release if one was created, then tag again.
 
+### Docker Hub overview (`.github/workflows/dockerhub-description.yml`)
+
+The Docker Hub repository overview is maintained in [DOCKERHUB.md](DOCKERHUB.md). Whenever the file changes on `main`
+(or on manual dispatch), the workflow publishes it to Docker Hub together with the short description. It needs the
+secret `DOCKERHUB_DESCRIPTION_TOKEN`, a Docker Hub access token with **Read, Write, Delete** scope.
+
 ### Dependency updates
 
 [Dependabot](.github/dependabot.yml) checks weekly for updates to Maven dependencies, GitHub Actions and the Docker
