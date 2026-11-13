@@ -1,0 +1,71 @@
+# Continuous integration: builds and tests all three artifacts on every push and pull request.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build and test (JAR + WAR)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      - name: Build and test JAR
+        run: ./mvnw -B -ntp verify
+
+      - name: Build WAR
+        run: ./mvnw -B -ntp package -Pwar -DskipTests
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: hello-world-vaadin-snapshot
+          path: |
+            target/*.jar
+            target/*.war
+          retention-days: 7
+
+  docker:
+    name: Build Docker image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: docker/setup-buildx-action@v4
+
+      - name: Build image (no push)
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: false
+          load: true
+          tags: hello-world-vaadin:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Smoke test container health
+        run: |
+          docker run -d --name app -p 8080:8080 hello-world-vaadin:ci
+          for i in $(seq 1 30); do
+            if curl -fs http://localhost:8080/actuator/health; then echo; exit 0; fi
+            sleep 2
+          done
+          docker logs app
+          exit 1

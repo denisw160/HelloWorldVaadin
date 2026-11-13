@@ -1,0 +1,25 @@
+# Keeps Maven dependencies, GitHub Actions and Docker base images up to date.
+version: 2
+updates:
+  - package-ecosystem: maven
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      spring-boot:
+        patterns: ['org.springframework.boot*']
+      vaadin:
+        patterns: ['com.vaadin*']
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ['*']
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
