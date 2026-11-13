@@ -10,7 +10,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.ColorScheme;
-import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -29,7 +29,7 @@ public class HelloWorldView extends VerticalLayout {
      * The view contains a heading, descriptive text, a name input field, and a
      * primary action button. Pressing the button or the Enter key displays a
      * greeting notification using the entered name, with the greeting logic
-     * handling blank input separately. Below the form, a selector switches
+     * handling blank input separately. A selector in the header switches
      * between the system, light and dark color schemes.
      */
     public HelloWorldView() {
@@ -44,10 +44,15 @@ public class HelloWorldView extends VerticalLayout {
         var form = new HorizontalLayout(name, sayHello);
         form.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
 
-        add(new H1("Hello World"),
+        var title = new H1("Hello World");
+        var header = new HorizontalLayout(title, createColorSchemeSelector());
+        header.setWidthFull();
+        header.setDefaultVerticalComponentAlignment(Alignment.CENTER);
+        header.expand(title);
+
+        add(header,
                 new Paragraph("A minimal Vaadin Flow application. Enter your name and press the button."),
-                form,
-                createColorSchemeSelector());
+                form);
         setPadding(true);
     }
 
@@ -55,8 +60,10 @@ public class HelloWorldView extends VerticalLayout {
      * Creates the light/dark switch. The choice is applied to the page and remembered in the
      * Vaadin session, so it survives a page reload. "System" follows the operating system setting.
      */
-    private RadioButtonGroup<ColorScheme.Value> createColorSchemeSelector() {
-        var selector = new RadioButtonGroup<ColorScheme.Value>("Color scheme");
+    private Select<ColorScheme.Value> createColorSchemeSelector() {
+        var selector = new Select<ColorScheme.Value>();
+        selector.setAriaLabel("Color scheme");
+        selector.setTooltipText("Color scheme");
         selector.setItems(ColorScheme.Value.LIGHT_DARK, ColorScheme.Value.LIGHT, ColorScheme.Value.DARK);
         selector.setItemLabelGenerator(HelloWorldView::colorSchemeLabel);
         selector.addValueChangeListener(event -> {

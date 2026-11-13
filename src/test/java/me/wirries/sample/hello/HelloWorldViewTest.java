@@ -3,7 +3,7 @@ package me.wirries.sample.hello;
 import com.vaadin.browserless.BrowserlessApplicationContext;
 import com.vaadin.browserless.BrowserlessUIContext;
 import com.vaadin.flow.component.page.ColorScheme;
-import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
+import com.vaadin.flow.component.select.Select;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,8 +60,8 @@ class HelloWorldViewTest {
     }
 
     @SuppressWarnings("unchecked")
-    private static RadioButtonGroup<ColorScheme.Value> colorSchemeSelector(BrowserlessUIContext window) {
-        return window.find(RadioButtonGroup.class).single();
+    private static Select<ColorScheme.Value> colorSchemeSelector(BrowserlessUIContext window) {
+        return window.find(Select.class).single();
     }
 
     @Test
