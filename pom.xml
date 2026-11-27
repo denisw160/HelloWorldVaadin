@@ -36,7 +36,7 @@
         <revision>0.1.0-SNAPSHOT</revision>
         <packaging.type>jar</packaging.type>
         <java.version>25</java.version>
-        <vaadin.version>25.3.5</vaadin.version>
+        <vaadin.version>25.3.6</vaadin.version>
     </properties>
 
     <dependencyManagement>
